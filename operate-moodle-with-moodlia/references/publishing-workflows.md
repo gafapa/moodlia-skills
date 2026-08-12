@@ -48,4 +48,3 @@ Keep the course hidden or in draft while building when the operation surface sup
 4. Do not delete previous backups unless explicitly requested.
 5. Restore only to a user-approved target. `existing_delete` is destructive and requires explicit authority.
 6. Verify the restored course independently from the source course.
-

@@ -67,4 +67,3 @@ Inspect the operation-level `files` property:
 - download behavior must be confirmed from the operation parameters and return type.
 
 An `upload_reference` is not an arbitrary local path. It must be produced by the supported Moodle upload flow. Never base64-encode or transform files unless the exact operation documentation says to do so.
-

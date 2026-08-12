@@ -57,4 +57,3 @@ Present a bounded decision tree with consequences and restart. Do not imply that
 - Avoid an iframe for decoration, a single accordion, or content that works equally well as text.
 - Do not build arbitrary code execution, unrestricted user HTML, remote fetches, authentication, or personal-data collection.
 - Do not represent local feedback as a Moodle grade, attempt, or completion state.
-
