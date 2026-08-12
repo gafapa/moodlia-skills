@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" role="img" aria-labelledby="title description">
+  <title id="title">Input and output relationship</title>
+  <desc id="description">A line chart showing output increasing from zero to twenty as input increases from zero to ten.</desc>
+  <rect width="800" height="360" rx="24" fill="#f8fafc"/>
+  <path d="M100 40V290H740" fill="none" stroke="#64748b" stroke-width="4"/>
+  <path d="M100 290L740 60" fill="none" stroke="#0f766e" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="420" cy="175" r="13" fill="#f59e0b"/>
+  <g fill="#172033" font-family="system-ui, sans-serif" font-size="24">
+    <text x="350" y="335">Input</text>
+    <text x="26" y="170" transform="rotate(-90 26 170)">Output</text>
+    <text x="450" y="160">Input 5 → Output 10</text>
+  </g>
+</svg>

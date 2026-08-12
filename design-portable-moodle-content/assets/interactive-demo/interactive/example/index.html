@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; font-src 'none'; media-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Interactive parameter demonstration</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="demo-shell">
+    <header>
+      <p class="eyebrow">Parameter lab</p>
+      <h1>Explore the relationship</h1>
+      <p>Adjust the input and compare it with the calculated output.</p>
+    </header>
+
+    <section class="controls" aria-labelledby="controls-title">
+      <h2 id="controls-title">Controls</h2>
+      <label for="parameter">Input value: <output id="parameter-output" for="parameter">5</output></label>
+      <input id="parameter" type="range" min="0" max="10" step="1" value="5">
+      <button id="reset" type="button">Reset</button>
+    </section>
+
+    <section class="result" aria-labelledby="result-title">
+      <h2 id="result-title">Result</h2>
+      <div class="meter" aria-hidden="true"><span id="meter-fill"></span></div>
+      <p id="result-text" aria-live="polite"></p>
+    </section>
+
+    <noscript>
+      <img src="fallback.svg" alt="Static chart showing that the output doubles as the input increases.">
+      <p>The interactive controls require JavaScript. The output is twice the input value.</p>
+    </noscript>
+  </main>
+</body>
+</html>

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Operate Moodle with MoodlIA"
+  short_description: "Publish and manage Moodle through MoodlIA"
+  default_prompt: "Use $operate-moodle-with-moodlia to publish and verify content through the available MoodlIA MCP or CLI transport."

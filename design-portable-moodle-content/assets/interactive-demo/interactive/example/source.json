@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "type": "parameter-lab",
+  "title": "Explore the relationship",
+  "learningObjective": "Observe how a proportional output changes when the input changes.",
+  "language": "en",
+  "parameters": {
+    "minimum": 0,
+    "maximum": 10,
+    "initial": 5,
+    "multiplier": 2
+  },
+  "accessibility": {
+    "summary": "The output is twice the selected input value."
+  }
+}
