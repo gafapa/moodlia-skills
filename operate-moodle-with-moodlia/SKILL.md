@@ -58,4 +58,3 @@ When publishing output from `$design-portable-moodle-content`:
 - Backup requests return a native Moodle backup file record or a clearly reported platform error.
 - Destructive operations include explicit user authority and verified identifiers.
 - Claims about visible layout are backed by browser inspection when layout matters.
-

@@ -70,4 +70,3 @@ Do not add decorative HTML to names, titles, navigation labels, identifiers, or 
 ## Degradation rule
 
 When capability is uncertain, emit Profile A or B content and package the advanced artifact separately. Never make the learning objective depend solely on a feature that the target may sanitize.
-

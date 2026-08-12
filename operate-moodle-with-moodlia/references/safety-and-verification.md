@@ -46,4 +46,3 @@ Create a native backup, restore it on an isolated clean Moodle, and verify that:
 - Distinguish schema rejection, missing capability, missing operation, Moodle business error, transport error, and visual rendering failure.
 - Do not retry a write blindly after a timeout. Re-read state first because the original mutation may have succeeded.
 - Report unsupported file-area publication as a capability gap, not as malformed HTML.
-

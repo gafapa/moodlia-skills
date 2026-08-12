@@ -50,4 +50,3 @@ Create Moodle content as a portable browser artifact. Treat MoodlIA as an author
 - The mini-application cannot access the parent page, Moodle cookies, Moodle APIs, or remote network services.
 - The package remains useful in a cleaned HTML field through its universal or static layer.
 - A restored course does not require any code that was present only on the authoring Moodle.
-

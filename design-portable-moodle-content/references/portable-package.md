@@ -66,4 +66,3 @@ The target Moodle may ignore this file; the demonstration must still work.
 4. Restore it on a clean Moodle without MoodlIA.
 5. Confirm that local resources return successfully and no authoring-site URL remains.
 6. Test the static fallback with iframe support disabled.
-
