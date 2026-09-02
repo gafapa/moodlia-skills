@@ -19,6 +19,9 @@ Do not use prose documentation to override a newer schema.
 - Treat structured content as the operation result. Do not scrape display text when structured output exists.
 - If a needed tool is absent, confirm it through tool discovery before falling back to CLI.
 - A transport fallback does not create a capability that is absent from the canonical contract.
+- Modern MoodlIA MCP uses the stateless `2026-07-28` request model. Discover it with `server/discover`; each request carries its protocol version, client identity, and capabilities and does not require a session identifier.
+- Compatibility clients may fall back to the legacy `initialize` and `notifications/initialized` lifecycle. Retain and close a server-issued session only in that legacy flow.
+- Let the current client negotiate modern and legacy protocol eras unless a diagnostic task explicitly requires pinning one. Authenticate every request with the Moodle bearer token.
 
 ## CLI
 
@@ -31,7 +34,7 @@ moodlia <kebab-case-command> [arguments] --format json
 Project-development fallback from the repository root:
 
 ```text
-node cli/moodle-mcp.mjs <kebab-case-command> [arguments] --format json
+node cli/moodlia.mjs <kebab-case-command> [arguments] --format json
 ```
 
 The CLI uses `MOODLE_BASE_URL` and `MOODLE_REST_TOKEN`. It calls REST directly and does not require the MCP endpoint.
@@ -66,4 +69,15 @@ Inspect the operation-level `files` property:
 - `upload`: the operation accepts an upload reference described by its schema.
 - download behavior must be confirmed from the operation parameters and return type.
 
-An `upload_reference` is not an arbitrary local path. It must be produced by the supported Moodle upload flow. Never base64-encode or transform files unless the exact operation documentation says to do so.
+An `upload_reference` is not an arbitrary local path. It is the legacy Base64
+input retained for backward compatibility. Current folder-file, course-backup,
+and resource-module operations also accept a user-owned Moodle `draft_item_id`.
+
+For those supported operations, prefer the public CLI's `--upload-file <path>`
+option. It streams multipart data through Moodle core `/webservice/upload.php`,
+then sends only the returned draft item id to the operation. This avoids Base64
+size expansion and duplicate in-memory copies. The option is mutually exclusive
+with `--upload-reference` and `--draft-item-id`. MoodlIA does not impose a
+client-side file-size cap; do not reject a file based on a locally invented
+threshold. Moodle's effective upload allowance is authoritative, while PHP or
+the fronting web server may still reject a request before Moodle receives it.

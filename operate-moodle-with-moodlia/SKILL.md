@@ -47,6 +47,7 @@ When publishing output from `$design-portable-moodle-content`:
 - Use operation names in kebab-case, for example `get-course-contents` for `get_course_contents`.
 - Request JSON output and parse it structurally.
 - Pass object parameters as valid JSON, with shell-appropriate quoting.
+- For supported file operations, prefer `--upload-file <path>` so the CLI streams multipart data to Moodle's core draft endpoint and passes only the returned draft item id to the operation. Do not combine it with `--upload-reference` or `--draft-item-id`.
 - Keep `MOODLE_BASE_URL` and `MOODLE_REST_TOKEN` in environment configuration. Never print tokens or place them in command arguments, source files, generated HTML, logs, or final responses.
 - Discover usage with `moodlia --help` and the installed contract instead of relying on a memorized command list.
 
