@@ -29,7 +29,7 @@ Use the current MoodlIA contract as the source of truth. Treat MCP and CLI as ad
 9. Use browser-visible verification only when the user needs visual confirmation or API state is insufficient.
 10. Report the transport, operation, target identifiers, resulting state, and any unverified assumptions.
 
-For content and course workflows, read [references/publishing-workflows.md](references/publishing-workflows.md). For mutation and credential constraints, read [references/safety-and-verification.md](references/safety-and-verification.md).
+For content, resource replacement, question-bank, and course workflows, read [references/publishing-workflows.md](references/publishing-workflows.md). For mutation and credential constraints, read [references/safety-and-verification.md](references/safety-and-verification.md).
 
 ## Portable content boundary
 
@@ -50,6 +50,12 @@ When publishing output from `$design-portable-moodle-content`:
 - For supported file operations, prefer `--upload-file <path>` so the CLI streams multipart data to Moodle's core draft endpoint and passes only the returned draft item id to the operation. Do not combine it with `--upload-reference` or `--draft-item-id`.
 - Keep `MOODLE_BASE_URL` and `MOODLE_REST_TOKEN` in environment configuration. Never print tokens or place them in command arguments, source files, generated HTML, logs, or final responses.
 - Discover usage with `moodlia --help` and the installed contract instead of relying on a memorized command list.
+
+## Identity-sensitive operations
+
+- Replace a File resource through `update_resource` or `update-resource`; do not delete and recreate the activity. Verify that the returned course-module and instance identifiers match the pre-update values.
+- Use `bank_scope=course_shared` for a reusable course question bank. A create or import operation can provision the course's `qbank` activity when none exists; absence of a current bank is not a reason to fall back to `quiz_private`.
+- Use `quiz_private` only when the questions are intentionally owned by one verified quiz, and then provide its `quiz_module_id`.
 
 ## Completion criteria
 

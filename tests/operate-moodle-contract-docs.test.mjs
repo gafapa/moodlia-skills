@@ -12,6 +12,12 @@ const transportPath = path.join(
   'references',
   'transport-and-contract.md'
 );
+const publishingPath = path.join(
+  root,
+  'operate-moodle-with-moodlia',
+  'references',
+  'publishing-workflows.md'
+);
 
 test('documents current MCP negotiation and CLI entry point', async () => {
   const transport = await readFile(transportPath, 'utf8');
@@ -36,4 +42,27 @@ test('documents local file uploads without a MoodlIA size cap', async () => {
   assert.doesNotMatch(transport, /reads and base64-encodes/);
   assert.match(transport, /does not impose a\s+client-side file-size cap/);
   assert.match(transport, /Moodle's effective upload allowance is authoritative/);
+});
+
+test('preserves File resource identity during replacement', async () => {
+  const [skill, publishing] = await Promise.all([
+    readFile(skillPath, 'utf8'),
+    readFile(publishingPath, 'utf8')
+  ]);
+
+  assert.match(skill, /Replace a File resource through `update_resource`/);
+  assert.match(publishing, /Do not delete and recreate a File resource/);
+  assert.match(publishing, /course-module identifier, and instance identifier/);
+});
+
+test('distinguishes shared and quiz-private question banks', async () => {
+  const [skill, publishing] = await Promise.all([
+    readFile(skillPath, 'utf8'),
+    readFile(publishingPath, 'utf8')
+  ]);
+
+  assert.match(skill, /bank_scope=course_shared/);
+  assert.match(skill, /not a reason to fall back to `quiz_private`/);
+  assert.match(publishing, /MoodlIA can provision the course `qbank` activity/);
+  assert.match(publishing, /different ownership and reuse semantics/);
 });

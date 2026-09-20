@@ -34,6 +34,26 @@ Current contracts may expose chapter HTML while declaring `files: none` for chap
 
 If step 2 is unsupported, do not upload the package to an unrelated Folder activity and claim that it is embedded or self-contained. Offer the Folder as an explicit separate-resource alternative only when the user accepts that change.
 
+## Replace a File resource
+
+1. Resolve the existing File resource and record its course-module and instance identifiers.
+2. Confirm that `update_resource` declares `files: upload` in the current contract.
+3. Run `update_resource` through MCP or `update-resource --upload-file <path>` through the CLI.
+4. Re-read the resource and verify its filename, file metadata, course-module identifier, and instance identifier.
+5. When portability matters, back up and restore the course and verify the replacement file after restoration.
+
+Do not delete and recreate a File resource merely to replace its file. Recreation changes activity identity and can disrupt links, completion state, restrictions, grades, logs, or external references.
+
+## Work with question banks
+
+1. Use `get_question_banks` to discover existing course-shared and quiz-private locations.
+2. Use `bank_scope=course_shared` for questions intended to be reusable across the course.
+3. Pass a verified `question_bank_module_id` when targeting a specific existing shared bank. When creating a category or importing a blueprint and no shared bank exists, omit that identifier so MoodlIA can provision the course `qbank` activity.
+4. Use `bank_scope=quiz_private` only for questions intentionally owned by one quiz, and provide the verified `quiz_module_id`.
+5. Verify the returned scope, category, and owning module identifiers. Include the question bank in a course backup when portability is required.
+
+Do not treat the absence of an existing `qbank` activity as a platform limitation or silently substitute a quiz-private bank. The two scopes have different ownership and reuse semantics.
+
 ## Generate a complete course
 
 Use a blueprint operation when its current schema covers the requested structure. Otherwise create the course and its elements incrementally so each identifier and failure can be verified.
