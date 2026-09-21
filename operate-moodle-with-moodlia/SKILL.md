@@ -52,6 +52,8 @@ When publishing output from `$design-portable-moodle-content`:
 - Keep `MOODLE_BASE_URL` and `MOODLE_REST_TOKEN` in environment configuration. Never print tokens or place them in command arguments, source files, generated HTML, logs, or final responses.
 - Discover usage with `moodlia --help` and the installed contract instead of relying on a memorized command list.
 - Use `moodle-core` only when the user explicitly wants a Core-only workflow. Prefer `moodlia` for adaptive operation: it selects proven MoodlIA capabilities per field and falls back to exact Core capabilities when the plugin is absent.
+- Use `moodlia core <command> --profile <name>` when an explicit Core contract is required and `moodlia plugin <command>` when an explicit plugin operation is required. Both namespaces run in the MoodlIA process; do not spawn another CLI to emulate them.
+- Treat CLI exit codes as structured outcomes: `2` validation, `3` capability gap, `4` conflict, `5` remote failure, `6` partial or unknown outcome, and `7` verification failure. Parse the JSON payload before deciding how to recover.
 
 ## Identity-sensitive operations
 

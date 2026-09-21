@@ -18,6 +18,10 @@ Do not claim complete course parity. Current synchronization covers selected cou
 6. Approve the exact plan digest outside an MCP model call. Apply with `--allow-write`; never treat a model-supplied boolean as human approval.
 7. Inspect the durable job, then verify through a fresh readback. Use history, cancellation, resume, and verify commands against the same SQLite state when recovery is required.
 
+Lifecycle aliases are `moodlia sync status --job-id ...`, `moodlia sync resume --job-id ...`, `moodlia sync verify --plan-id ...`, `moodlia sync history`, and `moodlia sync cancel --job-id ...`. The existing `course sync` flags remain supported. A conflict, capability gap, partial result, or verification failure still emits structured JSON and uses its documented non-zero exit code; do not discard stdout merely because the process code is non-zero.
+
+Use `moodlia course completion audit` for adaptive completion evidence. `moodlia course completion repair` is dry-run unless both `--allow-write` and `--yes` are present. On a Core-only site it returns a capability-gap plan because Core has no verified activity-completion configuration authoring API; never reinterpret that plan as a successful repair.
+
 Do not replay a timeout blindly. An ambiguous write becomes `unknown_outcome`; resume must first reconcile live state. Plans fail on global drift and again on entity preconditions immediately before each write. Only one job may hold a destination binding lease.
 
 ## Coordinator MCP
