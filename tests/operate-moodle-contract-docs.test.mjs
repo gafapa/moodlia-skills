@@ -85,5 +85,7 @@ test('documents adaptive synchronization approval and recovery boundaries', asyn
   assert.match(synchronization, /Approve the exact plan digest outside an MCP model call/);
   assert.match(synchronization, /`unknown_outcome`/);
   assert.match(synchronization, /moodlia-sync-mcp/);
+  assert.match(synchronization, /does not need one MCP tool per synchronized entity/);
+  assert.match(synchronization, /root manual grade items/);
   assert.match(synchronization, /Numeric Moodle IDs are site-scoped/);
 });

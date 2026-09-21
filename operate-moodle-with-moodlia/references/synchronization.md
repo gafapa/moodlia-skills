@@ -6,7 +6,7 @@ Use the shared synchronization engine for content transfer between Moodle sites 
 
 Discover each endpoint at runtime. A declared operation is not proof that the current token can use it. MoodlIA contextual evidence may prove course, category, activity, grading-form, or Workshop permissions; Core capabilities remain conservative unless exact service-function and field evidence exists. Provider selection is made per planned action and frozen into the immutable plan.
 
-Do not claim complete course parity. Current synchronization covers selected course metadata, explicit hidden target creation, sections when MoodlIA can author them, groups/groupings, selected portable modules, file resources, Books, selected assignment content and new rubrics, and new Workshop forms. Existing grading definitions are protected. Unsupported module authoring, deletion, learner submissions, grades, attempts, logs, and personal content must remain explicit gaps.
+Do not claim complete course parity. Current synchronization covers selected course metadata, explicit hidden target creation, sections when MoodlIA can author them, groups/groupings, portable Page/Label/URL/resource/folder and Book content, selected assignment content and grading forms, Workshop forms, supported standalone and Quiz-private question banks, Quiz slots, portable Lesson pages, Database fields, Feedback items, course-completion criteria, root manual grade items, and safe module-grade-item settings. Existing definitions and locked grading or completion state are protected. Embedded question/Lesson assets, positive Lesson cross-page jumps, custom grade categories, deletion, learner submissions, awarded grades, attempts, logs, and personal content must remain explicit gaps.
 
 ## Safe CLI workflow
 
@@ -23,6 +23,8 @@ Do not replay a timeout blindly. An ambiguous write becomes `unknown_outcome`; r
 ## Coordinator MCP
 
 Use `moodlia-sync-mcp` when an MCP client must coordinate two sites. This is separate from the Moodle-hosted MoodlIA MCP, which operates one site. Policy must allowlist profiles, direction, source course IDs, target course IDs or categories, and effects. The coordinator exposes planning, externally approved application, status, cancellation, resume, conflict inspection/replanning, verification, and history.
+
+The coordinator does not need one MCP tool per synchronized entity. `sync_plan_course` returns the shared engine's typed action list, including advanced actions such as grading-form, question-bank, Quiz-slot, completion, and grade-item changes; `sync_apply_plan` executes only the externally approved immutable digest.
 
 For local clients prefer stdio. The Streamable HTTP server requires a strong Bearer credential, host allowlisting, and a TLS-authenticated reverse proxy for any non-loopback deployment. Run one coordinator per trust domain; Moodle credentials remain downstream secrets and never become MCP arguments or results.
 
