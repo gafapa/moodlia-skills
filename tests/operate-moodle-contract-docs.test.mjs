@@ -18,6 +18,12 @@ const publishingPath = path.join(
   'references',
   'publishing-workflows.md'
 );
+const synchronizationPath = path.join(
+  root,
+  'operate-moodle-with-moodlia',
+  'references',
+  'synchronization.md'
+);
 
 test('documents current MCP negotiation and CLI entry point', async () => {
   const transport = await readFile(transportPath, 'utf8');
@@ -65,4 +71,19 @@ test('distinguishes shared and quiz-private question banks', async () => {
   assert.match(skill, /not a reason to fall back to `quiz_private`/);
   assert.match(publishing, /MoodlIA can provision the course `qbank` activity/);
   assert.match(publishing, /different ownership and reuse semantics/);
+});
+
+test('documents adaptive synchronization approval and recovery boundaries', async () => {
+  const [skill, synchronization] = await Promise.all([
+    readFile(skillPath, 'utf8'),
+    readFile(synchronizationPath, 'utf8')
+  ]);
+
+  assert.match(skill, /references\/synchronization\.md/);
+  assert.match(skill, /Prefer `moodlia` for adaptive operation/);
+  assert.match(synchronization, /`moodle-core` is a Core-only foundation and intentionally has no MCP server/);
+  assert.match(synchronization, /Approve the exact plan digest outside an MCP model call/);
+  assert.match(synchronization, /`unknown_outcome`/);
+  assert.match(synchronization, /moodlia-sync-mcp/);
+  assert.match(synchronization, /Numeric Moodle IDs are site-scoped/);
 });

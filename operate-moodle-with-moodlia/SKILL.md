@@ -1,6 +1,6 @@
 ---
 name: operate-moodle-with-moodlia
-description: Operate, publish, inspect, back up, restore, and verify Moodle courses through the MoodlIA MCP tools or Node CLI while respecting the shared canonical operation contract. Use when listing or resolving Moodle entities; creating or updating courses, sections, modules, Books, chapters, questions, activities, files, or enrolments; publishing portable HTML produced by another skill; choosing between MCP and CLI; diagnosing transport or schema errors; exporting a native Moodle backup; or verifying Moodle-visible results without inventing unsupported operations.
+description: Operate, publish, inspect, synchronize, back up, restore, and verify Moodle courses through MoodlIA MCP or the adaptive Node CLI while respecting live capabilities and the canonical operation contract. Use for Moodle entities, authored content, files, cross-site course synchronization, transport selection, native backups, or verified Moodle-visible changes without inventing unsupported operations.
 ---
 
 # Operate Moodle With MoodlIA
@@ -30,6 +30,7 @@ Use the current MoodlIA contract as the source of truth. Treat MCP and CLI as ad
 10. Report the transport, operation, target identifiers, resulting state, and any unverified assumptions.
 
 For content, resource replacement, question-bank, and course workflows, read [references/publishing-workflows.md](references/publishing-workflows.md). For mutation and credential constraints, read [references/safety-and-verification.md](references/safety-and-verification.md).
+For cross-site synchronization, adaptive Core fallback, immutable plans, approval, recovery, and the coordinator MCP, read [references/synchronization.md](references/synchronization.md).
 
 ## Portable content boundary
 
@@ -50,6 +51,7 @@ When publishing output from `$design-portable-moodle-content`:
 - For supported file operations, prefer `--upload-file <path>` so the CLI streams multipart data to Moodle's core draft endpoint and passes only the returned draft item id to the operation. Do not combine it with `--upload-reference` or `--draft-item-id`.
 - Keep `MOODLE_BASE_URL` and `MOODLE_REST_TOKEN` in environment configuration. Never print tokens or place them in command arguments, source files, generated HTML, logs, or final responses.
 - Discover usage with `moodlia --help` and the installed contract instead of relying on a memorized command list.
+- Use `moodle-core` only when the user explicitly wants a Core-only workflow. Prefer `moodlia` for adaptive operation: it selects proven MoodlIA capabilities per field and falls back to exact Core capabilities when the plugin is absent.
 
 ## Identity-sensitive operations
 

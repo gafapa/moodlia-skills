@@ -20,7 +20,7 @@ Never add `@@PLUGINFILE@@` references unless the same workflow can attach every 
 5. Use `after_chapter_id` only with a verified chapter from the same Book.
 6. Re-list chapters with content and verify title, order, subchapter state, visibility, and HTML.
 
-Current contracts may expose chapter HTML while declaring `files: none` for chapter mutations. In that state, iframe packages and other chapter files cannot be published through that operation. Publish universal HTML or stop and report the contract gap.
+Current chapter mutations support editor-file uploads with `draft_item_id`. Upload through the CLI's `--upload-file` path, use `@@PLUGINFILE@@/filename` in chapter HTML, and verify the final `mod_book/chapter` file manifest. If live discovery reports a different contract, obey the discovered contract and report the gap instead of assuming upload support.
 
 ## Publish a portable interactive artifact
 
