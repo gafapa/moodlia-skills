@@ -21,3 +21,9 @@ npm run check
 ```
 
 The tests exercise valid portable packages and reject remote resources, unsafe parent scripts, unsandboxed iframes, dynamic code, and remote runtime requests.
+
+## License
+
+Copyright (C) 2026 Pablo Gallego.
+
+This project is free software released under the GNU General Public License version 3 or later. See `LICENSE`.
