@@ -81,11 +81,12 @@ test('documents adaptive synchronization approval and recovery boundaries', asyn
 
   assert.match(skill, /references\/synchronization\.md/);
   assert.match(skill, /Prefer `moodlia` for adaptive operation/);
-  assert.match(synchronization, /`moodle-core` is a Core-only foundation and intentionally has no MCP server/);
-  assert.match(synchronization, /Approve the exact plan digest outside an MCP model call/);
+  assert.match(synchronization, /`moodlia-sync` CLI/);
+  assert.match(synchronization, /Only after the user approves, run `moodlia-sync approve <plan> --yes`/);
+  assert.match(synchronization, /npm approve-scripts better-sqlite3/);
   assert.match(synchronization, /`unknown_outcome`/);
-  assert.match(synchronization, /moodlia-sync-mcp/);
-  assert.match(synchronization, /does not need one MCP tool per synchronized entity/);
+  assert.match(synchronization, /`moodlia-sync-mcp` coordinator is deprecated/);
+  assert.doesNotMatch(synchronization, /moodlia course sync|moodlia sync (?:status|resume|verify|history|cancel)/);
   assert.match(synchronization, /root manual grade items/);
   assert.match(synchronization, /Numeric Moodle IDs are site-scoped/);
 });

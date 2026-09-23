@@ -30,7 +30,7 @@ Use the current MoodlIA contract as the source of truth. Treat MCP and CLI as ad
 10. Report the transport, operation, target identifiers, resulting state, and any unverified assumptions.
 
 For content, resource replacement, question-bank, and course workflows, read [references/publishing-workflows.md](references/publishing-workflows.md). For mutation and credential constraints, read [references/safety-and-verification.md](references/safety-and-verification.md).
-For cross-site synchronization, adaptive Core fallback, immutable plans, approval, recovery, and the coordinator MCP, read [references/synchronization.md](references/synchronization.md).
+For cross-site synchronization with the `moodlia-sync` CLI, adaptive Core fallback, immutable plans, approval, and recovery, read [references/synchronization.md](references/synchronization.md).
 
 ## Portable content boundary
 

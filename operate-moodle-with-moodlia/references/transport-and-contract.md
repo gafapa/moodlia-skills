@@ -81,3 +81,12 @@ with `--upload-reference` and `--draft-item-id`. MoodlIA does not impose a
 client-side file-size cap; do not reject a file based on a locally invented
 threshold. Moodle's effective upload allowance is authoritative, while PHP or
 the fronting web server may still reject a request before Moodle receives it.
+A user may set `--max-upload-bytes` or `MOODLE_MAX_UPLOAD_BYTES`; responses
+are limited to 64 MiB (`--max-response-bytes`). A `payload_too_large` error
+names the limit and the option that raises it; report it rather than retrying.
+
+To pass long HTML or text, prefer a UTF-8 file over an inline argument:
+every text parameter accepts `--<field>-file`, for example `--content-file`,
+`--summary-file`, `--intro-file`, `--message-file`, `--description-file`,
+`--definition-file`, or `--question-text-file`. The CLI only reads files from
+the working directory or files named on the command line.
