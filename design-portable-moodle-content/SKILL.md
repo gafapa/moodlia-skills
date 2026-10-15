@@ -27,8 +27,8 @@ Create Moodle content as a portable browser artifact. Treat MoodlIA as an author
    - `universal-html`: semantic HTML, inline presentation styles where needed, native elements such as `details`, and no JavaScript.
    - `portable-iframe`: universal fallback plus a local, self-contained mini-application in a sandboxed iframe.
    - `static-fallback`: explanatory text, image or SVG, and optional direct file link when iframe execution is unavailable.
-5. For a mini-application, follow [references/portable-package.md](references/portable-package.md). Copy and adapt `assets/interactive-demo/` instead of rebuilding the shell.
-6. Validate the artifact with `node scripts/validate-portable-content.mjs <artifact-directory>`.
+5. For a mini-application, follow [references/portable-package.md](references/portable-package.md). Copy and adapt `assets/interactive-demo/`, saving its parent `embed-fragment.html` as `content.html` in the output package.
+6. Validate the artifact with `node <skill-directory>/scripts/validate-portable-content.mjs <artifact-directory> --json`, resolving the script from this skill's directory. The validator checks static patterns; it does not prove site sanitization, file delivery, browser isolation, or backup/restore behavior.
 7. Preview at narrow and wide widths, with keyboard-only input, reduced motion, JavaScript disabled, and the iframe removed.
 8. When publication or course manipulation is requested, also use `$operate-moodle-with-moodlia`. Keep content generation and Moodle mutation as separate phases.
 
@@ -40,7 +40,8 @@ Create Moodle content as a portable browser artifact. Treat MoodlIA as an author
 - Support keyboard operation and visible focus. Avoid drag-only interactions; provide buttons or another equivalent input.
 - Respect `prefers-reduced-motion` and avoid automatic animation.
 - Keep iframe height practical and responsive. Provide a direct link to the local HTML file as a fallback.
-- Keep all code, variable names, comments, source metadata, and generated project documentation in English unless the learner-facing language is explicitly different.
+- Keep code identifiers, comments, metadata keys, and project documentation in English. Learner-facing text and metadata values such as the title or learning objective follow the requested teaching language.
+- Store generated markup as `html` when publishing. The availability of Markdown or Moodle auto-format in newer APIs does not change the output profile or make every Moodle field iframe-capable.
 
 ## Acceptance checks
 

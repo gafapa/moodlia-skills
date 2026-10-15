@@ -5,7 +5,7 @@ description: Operate, publish, inspect, synchronize, back up, restore, and verif
 
 # Operate Moodle With MoodlIA
 
-Use the current MoodlIA contract as the source of truth. Treat MCP and CLI as adapters over the same Moodle operations, not as separate product models.
+Use the current MoodlIA contract as the source of truth. Treat MCP and direct plugin CLI commands as adapters over the same Moodle operations. Adaptive CLI workflows can also compose exact Moodle Core services; cross-site synchronization belongs to the separate `moodlia-sync` package.
 
 ## Transport decision
 
@@ -14,7 +14,7 @@ Use the current MoodlIA contract as the source of truth. Treat MCP and CLI as ad
 3. Use the public `moodlia` CLI when MCP is unavailable, the user requests terminal automation, or a reproducible shell workflow is required.
 4. Use the repository CLI only during project development when the public binary is unavailable.
 5. Do not switch transports halfway through a mutation unless verifying parity or recovering from a clearly reported transport failure.
-6. Never invent an operation, parameter, file upload, or return field. Discover it from the live MCP schema or canonical contract.
+6. Never invent an operation, parameter, file upload, or return field. Discover it from the live MCP schema or canonical contract. A local checkout can be newer than the deployed plugin; confirm the site's version and capabilities before using a newly added field.
 
 ## Operating workflow
 
@@ -31,6 +31,7 @@ Use the current MoodlIA contract as the source of truth. Treat MCP and CLI as ad
 
 For content, resource replacement, question-bank, and course workflows, read [references/publishing-workflows.md](references/publishing-workflows.md). For mutation and credential constraints, read [references/safety-and-verification.md](references/safety-and-verification.md).
 For cross-site synchronization with the `moodlia-sync` CLI, adaptive Core fallback, immutable plans, approval, and recovery, read [references/synchronization.md](references/synchronization.md).
+For administration, people and roles, grading, participant interactions, activity-specific APIs, Core-only service families, and grouped adaptive workflows, read [references/operation-routing.md](references/operation-routing.md).
 
 ## Portable content boundary
 
@@ -39,9 +40,9 @@ When publishing output from `$design-portable-moodle-content`:
 - Keep authoring and publication as separate phases.
 - Validate the artifact before mutation.
 - Confirm that the destination operation supports both its HTML field and its file area.
-- Inspect the contract's `files` metadata. If an operation says `files: none`, do not assume that `@@PLUGINFILE@@` assets can be attached through it.
+- Inspect the contract's `files` metadata and the actual draft parameters, including documented nested `options`. `files: none` alone does not establish editor-file support or exclude an explicitly supported nested draft path.
 - If the current contract lacks an editor-file upload operation, publish only the universal HTML layer or report the missing capability. Do not silently substitute an external dependency.
-- Create a native `.mbz` backup and, when an isolated validation target is available, restore it without relying on MoodlIA at runtime.
+- When the user requests backup or portability assurance, create a native `.mbz` backup and, within the authorized scope, restore it on an isolated validation target without relying on MoodlIA at runtime. Do not expand ordinary content authoring into an unsolicited restore.
 
 ## CLI conventions
 
@@ -49,11 +50,13 @@ When publishing output from `$design-portable-moodle-content`:
 - Request JSON output and parse it structurally.
 - Pass object parameters as valid JSON, with shell-appropriate quoting.
 - For supported file operations, prefer `--upload-file <path>` so the CLI streams multipart data to Moodle's core draft endpoint and passes only the returned draft item id to the operation. Do not combine it with `--upload-reference` or `--draft-item-id`.
+- Distinguish inline editor assets from downloadable attachments. Use the field-specific draft parameter discovered from the schema; the CLI exposes `--attachment-file` only where an attachment draft exists. For several files or nested paths, use one shared user-owned draft through the supported Node client rather than assuming a directory-upload CLI option.
 - Keep `MOODLE_BASE_URL` and `MOODLE_REST_TOKEN` in environment configuration. Never print tokens or place them in command arguments, source files, generated HTML, logs, or final responses.
 - Discover usage with `moodlia --help` and the installed contract instead of relying on a memorized command list.
-- Use `moodle-core` only when the user explicitly wants a Core-only workflow. Prefer `moodlia` for adaptive operation: it selects proven MoodlIA capabilities per field and falls back to exact Core capabilities when the plugin is absent.
+- Use `moodle-core` when the user requests a Core-only workflow. Prefer `moodlia` for adaptive operation: its grouped workflows select proven MoodlIA capabilities and fall back to exact Core capabilities. Direct plugin operation names still require the plugin.
 - Use `moodlia core <command> --profile <name>` when an explicit Core contract is required and `moodlia plugin <command>` when an explicit plugin operation is required. Both namespaces run in the MoodlIA process; do not spawn another CLI to emulate them.
 - Treat CLI exit codes as structured outcomes: `2` validation, `3` capability gap, `4` conflict, `5` remote failure, `6` partial or unknown outcome, and `7` verification failure. Parse the JSON payload before deciding how to recover.
+- Use the format declared by each field. Generated HTML uses `html`; Markdown and Moodle auto-format are supported only where the discovered schema or destination capability declares them. Wiki syntax has its own format enum.
 
 ## Identity-sensitive operations
 

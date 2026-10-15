@@ -67,6 +67,27 @@ Do not add decorative HTML to names, titles, navigation labels, identifiers, or 
 - Do not use `data:` URLs for large assets. They increase database content size and complicate editing.
 - Do not link executable resources to the authoring Moodle, MoodlIA, localhost, a temporary server, or a CDN.
 
+## Current publication support
+
+MoodlIA plugin 0.1.215 and the 0.4 CLI support native editor drafts for Book,
+Page, Label, URL, section, assignment, forum, glossary, Lesson, and wiki content
+through their declared operation paths. This is file-publication support, not
+a guarantee of Profile C. Learner-authored and collaborative fields still need
+the conservative Profile A assessment.
+
+Forum and glossary inline editor files use `inline_draft_item_id`; downloadable
+attachments use a different `attachment_draft_item_id`. Putting a mini-application
+in an attachment or an unrelated Folder does not publish it into the HTML
+field's backed-up editor area. Activity-intro drafts can be supplied through
+`create_module` options on a supporting plugin, but `create-module --upload-file`
+is only a File resource shortcut.
+
+Use `$operate-moodle-with-moodlia` to discover the deployed version, actual draft
+parameter and owning file area before publication. A newer local schema or a
+working upload says nothing about the site's iframe purification, Content
+Security Policy, or forced-download policy. Test the served HTML file and its
+fallback at the destination before claiming that the interactive layer works.
+
 ## Degradation rule
 
 When capability is uncertain, emit Profile A or B content and package the advanced artifact separately. Never make the learning objective depend solely on a feature that the target may sanitize.

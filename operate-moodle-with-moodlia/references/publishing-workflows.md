@@ -11,6 +11,43 @@
 
 Never add `@@PLUGINFILE@@` references unless the same workflow can attach every referenced file to the correct file area.
 
+Use `html` for generated HTML instead of relying on a field's default format.
+Plugin 0.1.215 exposes `html`, `plain`, `markdown`, and `moodle` for applicable
+text fields. Book and Lesson `content_format` accept these names as well as
+legacy numeric aliases; wiki `content_format` remains `html`, `creole`, or
+`nwiki` where declared. Do not extrapolate one field's enum to another.
+
+## Editor assets and attachments
+
+Confirm the destination field, draft parameter, and ownership before uploading:
+
+| Destination | Editor draft | Important distinction |
+| --- | --- | --- |
+| Book chapter, Page, Label, URL, section summary | Supported `draft_item_id` or documented module options | Publish files into the exact owner's editor area |
+| Assignment description or instructions | `draft_item_id` with `file_area` | `intro` and `activity` are separate file areas |
+| Forum discussion or post | `inline_draft_item_id` | Downloadable files use `attachment_draft_item_id` separately |
+| Glossary entry | `inline_draft_item_id` | Definition files and attachments are separate |
+| Lesson or wiki page | `draft_item_id` | A file-capable field can still sanitize HTML or iframes |
+| New activity intro | `options.intro_draft_item_id` when supported | Confirm plugin support; the CLI resource shortcut does not populate this field |
+
+`--upload-file` stages one inline/editor file; `--attachment-file` stages one
+attachment only for operations that declare it. Keep both draft identifiers
+when a supported operation uses both paths. Attachment-only publication does
+not make a `@@PLUGINFILE@@` reference in the editor valid.
+
+For a multi-file package, upload every member into one current-user draft,
+preserving its nested `filepath` and `filename`. The public Node client accepts
+`client.uploadDraftFile(localPath, { filename, filepath, itemId })`: start with
+`itemId: 0`, retain the returned `draft_item_id`, and reuse it as `itemId` for
+subsequent files. Pass the final draft id to the chosen operation only after
+all files are staged. Use the same site, token, and owner throughout; do not
+publish a separate draft per asset or treat a ZIP as automatically extracted.
+
+Re-read the owner's file manifest, paths and content hashes after publication.
+Rendered asset URLs can encode Unicode names differently; preserve stable,
+field-relative `@@PLUGINFILE@@` paths and never copy source context ids or token
+query parameters into generated HTML.
+
 ## Publish a Book
 
 1. Resolve the course and section.
@@ -22,6 +59,9 @@ Never add `@@PLUGINFILE@@` references unless the same workflow can attach every 
 
 Current chapter mutations support editor-file uploads with `draft_item_id`. Upload through the CLI's `--upload-file` path, use `@@PLUGINFILE@@/filename` in chapter HTML, and verify the final `mod_book/chapter` file manifest. If live discovery reports a different contract, obey the discovered contract and report the gap instead of assuming upload support.
 
+For more than one chapter asset, use the shared-draft workflow above and retain
+the chapter id. Do not recreate an existing Book or chapter merely to attach files.
+
 ## Publish a portable interactive artifact
 
 1. Confirm the target HTML field preserves iframe markup on the target site.
@@ -29,8 +69,8 @@ Current chapter mutations support editor-file uploads with `draft_item_id`. Uplo
 3. Upload the package files and obtain stable field-relative paths.
 4. Insert only `@@PLUGINFILE@@` references in the stored HTML.
 5. Re-read and render the destination.
-6. Back up the course.
-7. Prefer a restore test on a clean Moodle without MoodlIA when the user requests portability assurance.
+6. When backup or portability assurance is requested, create a native course backup.
+7. For portability assurance, restore on an authorized isolated Moodle without MoodlIA, or explicitly report that restore behavior remains unverified.
 
 If step 2 is unsupported, do not upload the package to an unrelated Folder activity and claim that it is embedded or self-contained. Offer the Folder as an explicit separate-resource alternative only when the user accepts that change.
 
@@ -48,7 +88,7 @@ Do not delete and recreate a File resource merely to replace its file. Recreatio
 
 1. Use `get_question_banks` to discover existing course-shared and quiz-private locations.
 2. Use `bank_scope=course_shared` for questions intended to be reusable across the course.
-3. Pass a verified `question_bank_module_id` when targeting a specific existing shared bank. When creating a category or importing a blueprint and no shared bank exists, omit that identifier so MoodlIA can provision the course `qbank` activity.
+3. Pass a verified `question_bank_module_id` when targeting a specific existing shared bank. When creating a category or importing a blueprint and no shared bank exists, omit that identifier so MoodlIA can provision the course `qbank` activity on branches that support it. Moodle 4.5 can use its shared course-context bank without that optional activity; verify the returned scope rather than demanding a `qbank` module on every branch.
 4. Use `bank_scope=quiz_private` only for questions intentionally owned by one quiz, and provide the verified `quiz_module_id`.
 5. Verify the returned scope, category, and owning module identifiers. Include the question bank in a course backup when portability is required.
 
@@ -68,3 +108,8 @@ Keep the course hidden or in draft while building when the operation surface sup
 4. Do not delete previous backups unless explicitly requested.
 5. Restore only to a user-approved target. `existing_delete` is destructive and requires explicit authority.
 6. Verify the restored course independently from the source course.
+
+Use the returned file record and authenticated client download path; do not
+construct a backup URL from context/item ids. Record separately whether the
+backup was created, downloaded, and restored. An unreleased URL fix in a local
+checkout does not prove that a deployed server has it.

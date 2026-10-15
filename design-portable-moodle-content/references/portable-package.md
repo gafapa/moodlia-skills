@@ -16,6 +16,11 @@ artifact/
 
 `content.html` is the fragment stored in Moodle. The `interactive` directory is uploaded into the same backed-up editor file area.
 
+When starting from `assets/interactive-demo/`, rename `embed-fragment.html` to
+`content.html` in the output artifact. The validator's parent-script and
+event-handler rules target that filename; a successful scan of an arbitrarily
+named fragment is not equivalent coverage. Keep the remaining relative tree.
+
 ## Parent fragment
 
 Include all of the following:
@@ -60,9 +65,15 @@ The target Moodle may ignore this file; the demonstration must still work.
 
 ## Packaging and restore checks
 
-1. Upload every file to the destination field's own file area.
+1. For an authorized publication, stage every package file in one current-user draft, retaining nested paths, then publish that draft into the destination field's own file area. The CLI's one-file helper does not upload a directory or extract a ZIP; use the supported Node client for a multi-file draft.
 2. Store only `@@PLUGINFILE@@` references in Moodle HTML.
-3. Create a native Moodle course backup.
-4. Restore it on a clean Moodle without MoodlIA.
+3. When backup or portability assurance is requested, create a native Moodle course backup.
+4. For portability assurance, restore it on an authorized isolated Moodle without MoodlIA. If no validation target exists, report restore portability as unverified rather than changing another course.
 5. Confirm that local resources return successfully and no authoring-site URL remains.
 6. Test the static fallback with iframe support disabled.
+
+Run `node <skill-directory>/scripts/validate-portable-content.mjs
+<artifact-directory> --json` before publication. Its regex checks do not resolve
+every resource path or prove that the site serves HTML inline. Check local paths,
+browser behavior and the restored file manifest separately when those outcomes
+are part of the task.

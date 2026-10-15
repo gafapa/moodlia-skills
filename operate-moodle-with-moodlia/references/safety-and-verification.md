@@ -6,6 +6,8 @@
 - Never echo, log, paste, commit, or return bearer tokens.
 - Do not use `--show-token` or equivalent output unless the user explicitly requests it and the terminal is not logged.
 - Redact authentication material from errors before reporting them.
+- Use HTTPS for remote Moodle URLs, preserving any installation subdirectory. Do not bypass certificate validation or follow an authentication redirect to work around a failed connection.
+- Supply only schema-declared tool arguments. Never place REST transport controls or bearer tokens inside an MCP tool's arguments.
 
 ## Mutation rules
 
@@ -25,6 +27,11 @@ Confirm operation name, transport, schema, file behavior, capabilities, and retu
 ### State verification
 
 Use a read operation after every mutation. Compare the requested and observed fields, not merely a success flag.
+
+Keep Moodle warnings and verification failures distinct from successful writes.
+Core 0.4.1 rejects warning-only course/user updates that earlier clients could
+report as updated. Do not bypass response validation to make a failed result
+look successful.
 
 ### Visual verification
 
@@ -46,3 +53,5 @@ Create a native backup, restore it on an isolated clean Moodle, and verify that:
 - Distinguish schema rejection, missing capability, missing operation, Moodle business error, transport error, and visual rendering failure.
 - Do not retry a write blindly after a timeout. Re-read state first because the original mutation may have succeeded.
 - Report unsupported file-area publication as a capability gap, not as malformed HTML.
+- When neither adaptive provider is available, retain each provider's failure code and sanitized details. Diagnose authentication, function availability and permissions separately.
+- When REST works but MCP rejects an IP-restricted token, compare the actual request routes and server/proxy configuration. MCP forwards to REST internally in the reviewed implementation, so source-IP handling needs deployment-specific verification. Do not remove token restrictions or widen trusted proxy headers as an automatic workaround.
