@@ -16,10 +16,9 @@ artifact/
 
 `content.html` is the fragment stored in Moodle. The `interactive` directory is uploaded into the same backed-up editor file area.
 
-When starting from `assets/interactive-demo/`, rename `embed-fragment.html` to
-`content.html` in the output artifact. The validator's parent-script and
-event-handler rules target that filename; a successful scan of an arbitrarily
-named fragment is not equivalent coverage. Keep the remaining relative tree.
+Copy `assets/interactive-demo/` and keep its `content.html` entrypoint and relative
+tree. The validator requires a nonempty root `content.html`. A static package
+can contain only that file; interactive content adds the local asset tree.
 
 ## Parent fragment
 
@@ -72,8 +71,11 @@ The target Moodle may ignore this file; the demonstration must still work.
 5. Confirm that local resources return successfully and no authoring-site URL remains.
 6. Test the static fallback with iframe support disabled.
 
-Run `node <skill-directory>/scripts/validate-portable-content.mjs
-<artifact-directory> --json` before publication. Its regex checks do not resolve
-every resource path or prove that the site serves HTML inline. Check local paths,
-browser behavior and the restored file manifest separately when those outcomes
-are part of the task.
+Run `node <skill-directory>/scripts/validate-portable-content.mjs <artifact-directory> --json`
+before publication. It checks the entrypoint, literal HTML/CSS resource paths,
+iframe permissions, interactive metadata and common prohibited patterns. These
+static checks do not parse arbitrary JavaScript or prove browser isolation,
+accessibility, site sanitization, inline file serving, or restored behavior.
+Use plain literal local paths; avoid runtime resource construction, srcset and
+CSS imports in these small packages. Keep instructional external links as links,
+never as active dependencies.

@@ -82,8 +82,8 @@ field's backed-up editor area. Activity-intro drafts can be supplied through
 `create_module` options on a supporting plugin, but `create-module --upload-file`
 is only a File resource shortcut.
 
-Use `$operate-moodle-with-moodlia` to discover the deployed version, actual draft
-parameter and owning file area before publication. A newer local schema or a
+Use the available Moodle tools and their live schemas to discover the deployed
+version, actual draft parameter and owning file area before publication. A newer local schema or a
 working upload says nothing about the site's iframe purification, Content
 Security Policy, or forced-download policy. Test the served HTML file and its
 fallback at the destination before claiming that the interactive layer works.

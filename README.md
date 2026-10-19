@@ -1,60 +1,51 @@
 # MoodlIA Skills
 
-Reusable Codex skills for designing content and operating Moodle through MoodlIA.
+A focused agent skill for creating accessible, portable Moodle learning content.
 
-## Included Skills
+## Included skill
 
-- `operate-moodle-with-moodlia`: inspect, create, update, publish, synchronize, back up, restore, and verify Moodle entities through the canonical MoodlIA operation contract and the separate `moodlia-sync` lifecycle.
-- `design-portable-moodle-content`: create accessible HTML and self-contained interactive content that survives normal Moodle backup and restore workflows.
+`design-portable-moodle-content` helps an agent choose between semantic HTML,
+local interactive demonstrations and static alternatives for sanitized Moodle
+fields. It includes compatibility guidance, authoring examples, an editable
+demonstration and a static package validator.
 
-Each skill is independently documented in its own `SKILL.md` file. The skills depend on public MoodlIA interfaces but do not contain the Moodle plugin or CLI implementation.
+The operational skill has been retired. Use the Moodle tools directly with
+their live schemas and normal authorization and verification requirements.
+The content skill has no dependency on an operational skill, the MoodlIA
+plugin, or a Moodle connection for local authoring. Publication requires a
+supported HTML field and, for assets, its backed-up editor file area.
 
-## Project Status
+## Installation
 
-This repository is the canonical source for MoodlIA agent skills. Project documentation, source comments, variables, and function names are written in English.
+Copy the complete `design-portable-moodle-content` directory, including its
+references, scripts, metadata and assets, to your agent's skill directory
+(for example `~/.codex/skills/` or `~/.claude/skills/`). Remove any previously
+installed operational skill from discovery. Keep historical copies outside
+skill discovery directories.
 
-## Current Compatibility
-
-Reviewed on 2026-09-30 against MoodlIA plugin `0.1.215`, `moodlia` and
-`moodle-core-cli` `0.4.1`, and `moodlia-sync` `0.1.1`. Live schemas and deployed
-capabilities take precedence over this baseline. Unreleased plugin fixes are
-identified as unreleased; a local checkout is not proof of a server update.
-
-The operating skill documents the standalone synchronization CLI, one-use
-digest approval and recovery, environment-referenced profiles, named text
-formats, inline versus attachment drafts, multi-file editor publication,
-streamed downloads and transfer limits. Core structural reads do not imply
-content-authoring support, and logical version-matrix tests do not substitute
-for live qualification.
-
-The reviewed plugin/MCP and MoodlIA CLI contracts declare 250 operations; the
-Core CLI contract contains 788 friendly operations across supported versions.
-The skill routes all operation families through their authoritative schemas,
-including administration, roles, evaluation, participant interactions and
-adaptive single-site workflows. It does not duplicate every command or assert
-that every operation is available to a live token. Cross-site synchronization
-is a separate, narrower capability set.
-
-The portable-content skill keeps authoring separate from publication. Its
-validator must run against a package with a `content.html` parent fragment;
-static checks do not prove browser behavior, site sanitization or restoration.
-
-Deploy each complete skill directory, including its references, metadata,
-scripts and assets, to the agent's skill directory. Refresh both active skills
-from this repository and keep historical backups outside the discovery path so
-obsolete instructions are not selected as current skills.
-
-## Quality Checks
+## Quality and evidence
 
 ```bash
 npm install
 npm run check
+node design-portable-moodle-content/scripts/validate-portable-content.mjs design-portable-moodle-content/assets/interactive-demo --json
 ```
 
-The tests exercise valid portable packages and reject remote resources, unsafe parent scripts, unsandboxed iframes, dynamic code, and remote runtime requests.
+The validator requires a nonempty root `content.html`, checks literal local
+resources and restricted iframe permissions, and rejects common unsafe or
+nonportable patterns. Tests exercise accepted static and interactive packages
+and meaningful rejection cases. Static validation does not prove browser
+behavior, accessibility compliance, Moodle sanitization or backup/restore
+portability. Report those evidence levels separately.
+
+The universal HTML layer is the conservative baseline. Interactive HTML needs
+site-specific iframe and file-serving checks. Claim verified restoration only
+after checking a native backup restored on an authorized isolated Moodle.
+
+Project documentation, source comments, variables, and function names are in English.
 
 ## License
 
 Copyright (C) 2026 Pablo Gallego.
 
-This project is free software released under the GNU General Public License version 3 or later. See `LICENSE`.
+GNU General Public License version 3 or later. See `LICENSE`.

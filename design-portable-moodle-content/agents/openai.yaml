@@ -1,4 +1,4 @@
 interface:
   display_name: "Portable Moodle Content Designer"
-  short_description: "Design portable interactive Moodle HTML content"
-  default_prompt: "Use $design-portable-moodle-content to create an accessible, self-contained interactive resource for Moodle."
+  short_description: "Create accessible, portable Moodle learning content"
+  default_prompt: "Use $design-portable-moodle-content to create a Moodle learning resource with local assets, a useful static alternative, and clearly reported validation evidence."

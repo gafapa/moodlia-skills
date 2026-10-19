@@ -1,4 +1,0 @@
-interface:
-  display_name: "Operate Moodle with MoodlIA"
-  short_description: "Operate Moodle and synchronize courses with MoodlIA"
-  default_prompt: "Use $operate-moodle-with-moodlia to inspect capabilities and complete the requested Moodle operation or course synchronization through the supported MCP or CLI workflow."
