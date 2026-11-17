@@ -69,11 +69,18 @@ Do not add decorative HTML to names, titles, navigation labels, identifiers, or 
 
 ## Current publication support
 
-MoodlIA plugin 0.1.215 and the 0.4 CLI support native editor drafts for Book,
-Page, Label, URL, section, assignment, forum, glossary, Lesson, and wiki content
-through their declared operation paths. This is file-publication support, not
-a guarantee of Profile C. Learner-authored and collaborative fields still need
-the conservative Profile A assessment.
+MoodlIA plugin 0.1.215 and later, with CLI 0.4 and later, support native editor
+drafts for Book, Page, Label, URL, section, assignment, forum, glossary, Lesson,
+and wiki content through their declared operation paths. The current releases
+are plugin 0.1.224 and CLI 0.5.3. This is file-publication support, not a
+guarantee of Profile C. Learner-authored and collaborative fields still need the
+conservative Profile A assessment.
+
+- Text format parameters accept `html`, `plain`, `markdown` and `moodle`. Store generated markup as `html`; omitting a format usually keeps the stored one.
+- `update_section` takes the summary, its format and exactly one of `upload_reference` or `draft_item_id`. Reference its files as `@@PLUGINFILE@@/<filename>`.
+- A quiz introduction can be replaced through `update_module` options `intro` and `intro_format` (plugin 0.1.220 and later), but that path keeps existing intro files and uploads no new ones. Use only Profile A or B markup that needs no new files there.
+- With the CLI, every text parameter has a `--<field>-file` form, so a prepared `content.html` can be sent without shell quoting, and `--upload-file` stages one local file in a draft.
+- Some course formats reject direct section creation. In Moodle 5.x, a `subsection` module created with `create_module` is the supported way to group content inside a section.
 
 Forum and glossary inline editor files use `inline_draft_item_id`; downloadable
 attachments use a different `attachment_draft_item_id`. Putting a mini-application

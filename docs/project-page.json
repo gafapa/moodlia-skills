@@ -2,11 +2,11 @@
   "repository": "https://github.com/gafapa/moodlia-skills",
   "website": "https://moodlia.com",
   "pages_url": "https://gafapa.github.io/moodlia-skills/",
-  "description": "Give your agent focused guidance for accessible, portable Moodle learning content.",
+  "description": "Give your agent focused guidance for accessible, portable Moodle learning content and safe Moodle operations through MoodlIA.",
   "steps": [
-    "Copy the complete design-portable-moodle-content directory into your agent skill directory.",
+    "Copy design-portable-moodle-content, operate-moodle-with-moodlia, or both into your agent skill directory.",
     "Include its references, scripts, metadata and assets.",
-    "Author locally, validate the package and verify destination Moodle behavior before publication."
+    "Author locally and validate the package; operate the site through MoodlIA with live schemas, confirmation and read-back."
   ],
   "command": "",
   "license": "GPL-3.0-or-later",
