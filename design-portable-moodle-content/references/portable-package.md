@@ -66,8 +66,8 @@ The target Moodle may ignore this file; the demonstration must still work.
 
 1. For an authorized publication, stage every package file in one current-user draft, retaining nested paths, then publish that draft into the destination field's own file area. The CLI's one-file helper does not upload a directory or extract a ZIP; use the supported Node client for a multi-file draft.
 2. Store only `@@PLUGINFILE@@` references in Moodle HTML.
-3. When backup or portability assurance is requested, create a native Moodle course backup.
-4. For portability assurance, restore it on an authorized isolated Moodle without MoodlIA. If no validation target exists, report restore portability as unverified rather than changing another course.
+3. When backup or portability assurance is requested, create a native Moodle backup. For one activity or one section, a single-item backup is enough and much smaller than a course backup: `backup_course_module` or `backup_course_section`, then `restore_course_item_backup` into the validation course (plugin 0.1.224 or later). Give the backup an explicit `filename`, leave user data out, and delete the backup file afterwards when it is no longer needed.
+4. For portability assurance, restore it on an authorized isolated Moodle without MoodlIA. If no validation target exists, report restore portability as unverified rather than changing another course. Moodle backups do not run on SQLite test sites; use PostgreSQL or MariaDB.
 5. Confirm that local resources return successfully and no authoring-site URL remains.
 6. Test the static fallback with iframe support disabled.
 

@@ -30,7 +30,7 @@ Create Moodle content as a portable browser artifact. Treat MoodlIA as an author
 5. For a mini-application, follow [references/portable-package.md](references/portable-package.md). Copy and adapt `assets/interactive-demo/`; its `content.html` is the parent fragment. For a static resource, a package containing only `content.html` is sufficient.
 6. Validate the artifact with `node <skill-directory>/scripts/validate-portable-content.mjs <artifact-directory> --json`, resolving the script from this skill's directory. The validator checks static patterns; it does not prove site sanitization, file delivery, browser isolation, or backup/restore behavior.
 7. Preview at narrow and wide widths, with keyboard-only input, reduced motion, JavaScript disabled, and the iframe removed.
-8. Publish only when requested, using the available Moodle tools and their discovered schemas. Confirm the target HTML field and its backed-up editor file area, upload related files together, and read back the stored result. This skill does not require another skill or a particular transport.
+8. Publish only when requested, using the available Moodle tools and their discovered schemas. Confirm the target HTML field and its backed-up editor file area, upload related files together, and read back the stored result. This skill does not require another skill or a particular transport. When the `operate-moodle-with-moodlia` skill is installed, follow its publication and verification procedure.
 
 ## Deliverable and evidence
 

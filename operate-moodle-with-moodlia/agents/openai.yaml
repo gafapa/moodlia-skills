@@ -1,0 +1,4 @@
+interface:
+  display_name: "MoodlIA Moodle Operator"
+  short_description: "Operate Moodle safely through MoodlIA MCP tools or the moodlia CLI"
+  default_prompt: "Use $operate-moodle-with-moodlia to identify the Moodle site and user, read before writing, confirm destructive changes, and verify every change through MoodlIA."
